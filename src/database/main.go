@@ -9,9 +9,7 @@ import (
 
 func Init() (db *gorm.DB) {
 	conf :=
-		Config{
-			// FILL IN
-		}
+		Config{}
 
 	connectionString := GetConnectionString(conf)
 
