@@ -2,15 +2,13 @@ package models
 
 import (
 	"time"
-
-	"gorm.io/gorm"
 )
 
 type Week struct {
-	gorm.Model
-	ID      uint      `gorm:"primaryKey"`
-	Start   time.Time `gorm:"type:time" json:"start,omitempty"`
-	Matches string    `json:"matches,omitempty"`
-	Created int64     `gorm:"autoCreateTime"`
-	Updated int64     `gorm:"autoUpdateTime"`
+	ID        uint      `gorm:"primary_key"`
+	Start     time.Time `gorm:"type:DATETIME; unique; not null" json:"start"`
+	End       time.Time `gorm:"type:DATETIME; unique; not null" json:"end"`
+	CreatedAt time.Time `gorm:"type:DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP"`
+	UpdatedAt time.Time `gorm:"type:DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"`
+	Matchups  []Matchup `gorm:"foreignKey:WeekID" json:"matches"`
 }
