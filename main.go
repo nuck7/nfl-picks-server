@@ -27,8 +27,14 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	// Run database migrations
 	// database.Connector.AutoMigrate(&models.Team{}, &models.User{}, &models.Pick{}, &models.Week{}, &models.Matchup{})
 
+	// Seed database
+	// seed.LoadAll(database.Connector)
+
+	// Start API
 	api.Api()
 
 }

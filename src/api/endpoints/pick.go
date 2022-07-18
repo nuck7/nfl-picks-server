@@ -15,7 +15,7 @@ import (
 func GetPick(w http.ResponseWriter, r *http.Request) {
 	requestBody, _ := ioutil.ReadAll(r.Body)
 	var params = r.URL.Query()
-	var picks models.Pick
+	var picks []models.Pick
 	json.Unmarshal(requestBody, &picks)
 
 	result := database.Connector.Where("")

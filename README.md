@@ -14,6 +14,10 @@ Spin up local DB
 In the main.go file it is commented out. Uncomment if you need the migrations
 ```db.AutoMigrate(&models.Team{}, &models.User{}, &models.Pick{}, &models.Week{}, &models.Matchup{})```
 
+### Seed database
+In the main.go file it is commented out. Uncomment if you need the data seeding
+```seed.LoadAll(database.Connector)```
+
 ### API
 Run app with live reloading
 ```air```

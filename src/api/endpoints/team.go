@@ -2,6 +2,7 @@ package endpoints
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -15,7 +16,7 @@ import (
 func GetTeam(w http.ResponseWriter, r *http.Request) {
 	requestBody, _ := ioutil.ReadAll(r.Body)
 	var params = r.URL.Query()
-	var teams models.Team
+	var teams []models.Team
 	json.Unmarshal(requestBody, &teams)
 
 	result := database.Connector.Where("")
@@ -38,9 +39,9 @@ func GetTeam(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
-
+	fmt.Println(json.Marshal(teams))
 	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusFound)
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(teams)
 }
 
@@ -71,7 +72,7 @@ func UpdateTeam(w http.ResponseWriter, r *http.Request) {
 
 	database.Connector.Create(team)
 	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(team)
 }
 
@@ -82,5 +83,5 @@ func DeleteTeam(w http.ResponseWriter, r *http.Request) {
 	var team models.Team
 	id, _ := strconv.ParseInt(key, 10, 64)
 	database.Connector.Where("id = ?", id).Delete(&team)
-	w.WriteHeader(http.StatusNoContent)
+	w.WriteHeader(http.StatusGone)
 }

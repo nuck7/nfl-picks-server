@@ -17,12 +17,12 @@ func Api() {
 	router.HandleFunc("/user", endpoints.CreateUser).Methods("POST")
 	router.HandleFunc("/team", endpoints.CreateTeam).Methods("POST")
 
-	router.HandleFunc("/pick/{id}", endpoints.GetPick).Methods("GET")
-	router.HandleFunc("/matchup/{id}", endpoints.GetMatchup).Methods("GET")
-	router.HandleFunc("/week/{id}", endpoints.GetWeek).Methods("GET")
-	router.HandleFunc("/user", endpoints.GetUser).Methods("GET")
-	router.HandleFunc("/team/{id}", endpoints.GetTeam).Methods("GET")
-	router.HandleFunc("/score/{id}", endpoints.GetScore).Methods("GET")
+	router.HandleFunc("/picks", endpoints.GetPick).Methods("GET")
+	router.HandleFunc("/matchups", endpoints.GetMatchup).Methods("GET")
+	router.HandleFunc("/weeks", endpoints.GetWeek).Methods("GET")
+	router.HandleFunc("/users", endpoints.GetUser).Methods("GET")
+	router.HandleFunc("/teams", endpoints.GetTeam).Methods("GET")
+	router.HandleFunc("/scores", endpoints.GetScore).Methods("GET")
 
 	router.HandleFunc("/pick/{id}", endpoints.UpdatePick).Methods("PATCH")
 	router.HandleFunc("/matchup/{id}", endpoints.UpdateMatchup).Methods("PATCH")

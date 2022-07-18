@@ -15,7 +15,7 @@ import (
 func GetMatchup(w http.ResponseWriter, r *http.Request) {
 	requestBody, _ := ioutil.ReadAll(r.Body)
 	var params = r.URL.Query()
-	var matchups models.Matchup
+	var matchups []models.Matchup
 	json.Unmarshal(requestBody, &matchups)
 
 	result := database.Connector.Where("")

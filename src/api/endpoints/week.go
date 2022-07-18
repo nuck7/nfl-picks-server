@@ -15,7 +15,7 @@ import (
 func GetWeek(w http.ResponseWriter, r *http.Request) {
 	requestBody, _ := ioutil.ReadAll(r.Body)
 	var params = r.URL.Query()
-	var weeks models.Week
+	var weeks []models.Week
 	json.Unmarshal(requestBody, &weeks)
 
 	result := database.Connector.Where("")
