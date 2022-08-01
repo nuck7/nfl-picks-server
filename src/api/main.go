@@ -19,6 +19,7 @@ func Api() {
 
 	router.HandleFunc("/picks", endpoints.GetPick).Methods("GET")
 	router.HandleFunc("/matchups", endpoints.GetMatchup).Methods("GET")
+	router.HandleFunc("/weekMatchups", endpoints.GetWeekMatchups).Methods("GET")
 	router.HandleFunc("/weeks", endpoints.GetWeek).Methods("GET")
 	router.HandleFunc("/users", endpoints.GetUser).Methods("GET")
 	router.HandleFunc("/teams", endpoints.GetTeam).Methods("GET")
