@@ -39,8 +39,10 @@ func GetWeekMatchups(w http.ResponseWriter, r *http.Request) {
 		matchups = append(matchups, types.MatchupResponse{
 			ID:           weekMatchups[i].Matchup_id,
 			HomeTeamID:   weekMatchups[i].Home_team_id,
+			HomeTeamCity: weekMatchups[i].Home_team_city,
 			HomeTeamName: weekMatchups[i].Home_team_name,
 			AwayTeamID:   weekMatchups[i].Away_team_id,
+			AwayTeamCity: weekMatchups[i].Away_team_city,
 			AwayTeamName: weekMatchups[i].Away_team_name,
 			WeekID:       weekMatchups[i].Week_id,
 		})

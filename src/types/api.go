@@ -33,8 +33,10 @@ type CreatePickInput struct {
 type MatchupResponse struct {
 	ID           uint
 	HomeTeamID   uint
+	HomeTeamCity string
 	HomeTeamName string
 	AwayTeamID   uint
+	AwayTeamCity string
 	AwayTeamName string
 	WeekID       uint
 }
@@ -56,8 +58,10 @@ type WeekMatchupView struct {
 	Week_end       time.Time
 	Matchup_id     uint
 	Home_team_id   uint
+	Home_team_city string
 	Home_team_name string
 	Away_team_id   uint
+	Away_team_city string
 	Away_team_name string
 }
 

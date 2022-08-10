@@ -17,8 +17,8 @@ var users = []models.User{
 		Email: "nick.test@gmail.com",
 	},
 	{
-		Name:  "Reece",
-		Email: "reece.test@gmail.com",
+		Name:  "Byron",
+		Email: "byron.test@gmail.com",
 	},
 }
 
