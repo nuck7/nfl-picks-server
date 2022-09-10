@@ -17,8 +17,8 @@ func GetPick(w http.ResponseWriter, r *http.Request) {
 	var params = r.URL.Query()
 	var picks []models.Pick
 	json.Unmarshal(requestBody, &picks)
-
-	result := database.Connector.Where("")
+	db := database.Connector
+	result := db.Where("")
 
 	if params["id"] != nil {
 		id, _ := strconv.ParseUint(params["id"][0], 0, 64)
@@ -55,6 +55,7 @@ func CreatePick(w http.ResponseWriter, r *http.Request) {
 	requestBody, _ := ioutil.ReadAll(r.Body)
 	var pick models.Pick
 	var PickInput types.CreatePickInput
+	db := database.Connector
 
 	json.Unmarshal(requestBody, &pick)
 
@@ -64,7 +65,7 @@ func CreatePick(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	database.Connector.Create(&PickInput)
+	db.Create(&PickInput)
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
@@ -74,9 +75,11 @@ func CreatePick(w http.ResponseWriter, r *http.Request) {
 func UpdatePick(w http.ResponseWriter, r *http.Request) {
 	requestBody, _ := ioutil.ReadAll(r.Body)
 	var pick models.Pick
+	db := database.Connector
+
 	json.Unmarshal(requestBody, &pick)
 
-	database.Connector.Create(pick)
+	db.Create(pick)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(pick)
@@ -85,9 +88,10 @@ func UpdatePick(w http.ResponseWriter, r *http.Request) {
 func DeletePick(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	key := vars["id"]
-
 	var pick models.Pick
+	db := database.Connector
+
 	id, _ := strconv.ParseInt(key, 10, 64)
-	database.Connector.Where("id = ?", id).Delete(&pick)
+	db.Where("id = ?", id).Delete(&pick)
 	w.WriteHeader(http.StatusNoContent)
 }

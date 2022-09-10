@@ -17,9 +17,11 @@ func GetWeekMatchups(w http.ResponseWriter, r *http.Request) {
 	var weekMatchups []types.WeekMatchupView
 	var weekMatchupResponse types.WeekMatchupResponse
 	var matchups []types.MatchupResponse
+	db := database.Connector
+
 	json.Unmarshal(requestBody, &weekMatchups)
 
-	weekMatchupViewResults := database.Connector.Table("weekMatchupView").Where("")
+	weekMatchupViewResults := db.Table("weekMatchupView").Where("")
 
 	// if params["id"] != nil {
 	id, _ := strconv.ParseUint(params["id"][0], 0, 64)

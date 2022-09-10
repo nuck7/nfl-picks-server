@@ -18,8 +18,9 @@ func GetTeam(w http.ResponseWriter, r *http.Request) {
 	var params = r.URL.Query()
 	var teams []models.Team
 	json.Unmarshal(requestBody, &teams)
+	db := database.Connector
 
-	result := database.Connector.Where("")
+	result := db.Where("")
 
 	if params["id"] != nil {
 		id, _ := strconv.ParseUint(params["id"][0], 0, 64)
@@ -49,6 +50,7 @@ func CreateTeam(w http.ResponseWriter, r *http.Request) {
 	requestBody, _ := ioutil.ReadAll(r.Body)
 	var team models.Team
 	var TeamInput types.CreateTeamInput
+	db := database.Connector
 
 	json.Unmarshal(requestBody, &team)
 
@@ -58,7 +60,7 @@ func CreateTeam(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	database.Connector.Create(&TeamInput)
+	db.Create(&TeamInput)
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
@@ -68,9 +70,11 @@ func CreateTeam(w http.ResponseWriter, r *http.Request) {
 func UpdateTeam(w http.ResponseWriter, r *http.Request) {
 	requestBody, _ := ioutil.ReadAll(r.Body)
 	var team models.Team
+	db := database.Connector
+
 	json.Unmarshal(requestBody, &team)
 
-	database.Connector.Create(team)
+	db.Create(team)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(team)
@@ -79,9 +83,10 @@ func UpdateTeam(w http.ResponseWriter, r *http.Request) {
 func DeleteTeam(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	key := vars["id"]
-
 	var team models.Team
+	db := database.Connector
+
 	id, _ := strconv.ParseInt(key, 10, 64)
-	database.Connector.Where("id = ?", id).Delete(&team)
+	db.Where("id = ?", id).Delete(&team)
 	w.WriteHeader(http.StatusGone)
 }

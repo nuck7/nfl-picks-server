@@ -2,6 +2,7 @@ package endpoints
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -51,20 +52,22 @@ func GetMatchup(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(matchups)
 }
 
-func CreateMatchup(w http.ResponseWriter, r *http.Request) {
+func CreateMatchups(w http.ResponseWriter, r *http.Request) {
+	fmt.Print("CREATE MATCHUPS")
+
 	requestBody, _ := ioutil.ReadAll(r.Body)
-	var matchup models.Matchup
-	var MatchupInput types.CreateMatchupInput
+	var matchup []models.Matchup
+	var MatchupInput []types.CreateMatchupInput
+	db := database.Connector
 
-	json.Unmarshal(requestBody, &matchup)
-
+	fmt.Print("requestBody", requestBody)
 	err := json.Unmarshal(requestBody, &MatchupInput)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	database.Connector.Create(&matchup)
+	db.CreateInBatches(&matchup, 20)
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
@@ -75,8 +78,9 @@ func UpdateMatchup(w http.ResponseWriter, r *http.Request) {
 	requestBody, _ := ioutil.ReadAll(r.Body)
 	var matchup models.Matchup
 	json.Unmarshal(requestBody, &matchup)
+	db := database.Connector
 
-	database.Connector.Create(matchup)
+	db.Create(matchup)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(matchup)
@@ -85,9 +89,10 @@ func UpdateMatchup(w http.ResponseWriter, r *http.Request) {
 func DeleteMatchup(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	key := vars["id"]
+	db := database.Connector
 
 	var pick models.Pick
 	id, _ := strconv.ParseInt(key, 10, 64)
-	database.Connector.Where("id = ?", id).Delete(&pick)
+	db.Where("id = ?", id).Delete(&pick)
 	w.WriteHeader(http.StatusNoContent)
 }

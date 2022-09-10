@@ -28,11 +28,12 @@ func main() {
 		panic(err.Error())
 	}
 
+	// db := database.Connector
 	// Run database migrations
-	// database.Connector.AutoMigrate(&models.Team{}, &models.User{}, &models.Pick{}, &models.Week{}, &models.Matchup{})
+	// db.AutoMigrate(&models.Team{}, &models.User{}, &models.Pick{}, &models.Week{}, &models.Matchup{})
 
 	// Seed database
-	// seed.LoadAll(database.Connector)
+	// seed.LoadAll(db)
 
 	// Start API
 	api.Api()

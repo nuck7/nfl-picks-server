@@ -19,11 +19,13 @@ func GetWeek(w http.ResponseWriter, r *http.Request) {
 	var params = r.URL.Query()
 	var weeks []models.Week
 	// var matchups []models.Matchup
+	db := database.Connector
+
 	json.Unmarshal(requestBody, &weeks)
 
-	weekResults := database.Connector.Where("")
+	weekResults := db.Where("")
 	includeMatchups := utils.StringToBool(params["includeMatchups"][0]) || false
-	matchupResults := database.Connector.Table("matchups")
+	matchupResults := db.Table("matchups")
 
 	if params["id"] != nil {
 		id, _ := strconv.ParseUint(params["id"][0], 0, 64)
@@ -75,6 +77,7 @@ func CreateWeek(w http.ResponseWriter, r *http.Request) {
 	requestBody, _ := ioutil.ReadAll(r.Body)
 	var week models.Week
 	var WeekInput types.CreateWeekInput
+	db := database.Connector
 
 	json.Unmarshal(requestBody, &week)
 
@@ -84,7 +87,7 @@ func CreateWeek(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	database.Connector.Create(&week)
+	db.Create(&week)
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
@@ -94,9 +97,11 @@ func CreateWeek(w http.ResponseWriter, r *http.Request) {
 func UpdateWeek(w http.ResponseWriter, r *http.Request) {
 	requestBody, _ := ioutil.ReadAll(r.Body)
 	var week models.Week
+	db := database.Connector
+
 	json.Unmarshal(requestBody, &week)
 
-	database.Connector.Create(week)
+	db.Create(week)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(week)
@@ -105,9 +110,10 @@ func UpdateWeek(w http.ResponseWriter, r *http.Request) {
 func DeleteWeek(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	key := vars["id"]
-
 	var week models.Week
+	db := database.Connector
+
 	id, _ := strconv.ParseInt(key, 10, 64)
-	database.Connector.Where("id = ?", id).Delete(&week)
+	db.Where("id = ?", id).Delete(&week)
 	w.WriteHeader(http.StatusNoContent)
 }
