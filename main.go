@@ -7,6 +7,8 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/nuck7/nfl-picks-server/src/api"
 	"github.com/nuck7/nfl-picks-server/src/database"
+	"github.com/nuck7/nfl-picks-server/src/models"
+	"github.com/nuck7/nfl-picks-server/src/seed"
 )
 
 func main() {
@@ -28,12 +30,12 @@ func main() {
 		panic(err.Error())
 	}
 
-	// db := database.Connector
+	db := database.Connector
 	// Run database migrations
-	// db.AutoMigrate(&models.Team{}, &models.User{}, &models.Pick{}, &models.Week{}, &models.Matchup{})
+	db.AutoMigrate(&models.Team{}, &models.User{}, &models.Pick{}, &models.Week{}, &models.Matchup{})
 
 	// Seed database
-	// seed.LoadAll(db)
+	seed.LoadAll(db)
 
 	// Start API
 	api.Api()

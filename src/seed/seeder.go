@@ -155,10 +155,12 @@ var teams = []models.Team{
 
 var weeks = []models.Week{
 	{
+		Name:  "Week 1",
 		Start: utils.ParseTime(time.RFC3339, "2022-07-07T16:41:46Z"),
 		End:   utils.ParseTime(time.RFC3339, "2022-07-14T16:41:46Z"),
 	},
 	{
+		Name:  "Week 2",
 		Start: utils.ParseTime(time.RFC3339, "2022-07-15T16:41:46Z"),
 		End:   utils.ParseTime(time.RFC3339, "2022-07-22T16:41:46Z"),
 	},
@@ -167,7 +169,27 @@ var weeks = []models.Week{
 var matchups = []models.Matchup{
 	{
 		HomeTeamID: 1,
-		AwayTeamID: 1,
+		AwayTeamID: 2,
+		WeekID:     1,
+	},
+	{
+		HomeTeamID: 3,
+		AwayTeamID: 4,
+		WeekID:     1,
+	},
+	{
+		HomeTeamID: 5,
+		AwayTeamID: 6,
+		WeekID:     1,
+	},
+	{
+		HomeTeamID: 7,
+		AwayTeamID: 8,
+		WeekID:     1,
+	},
+	{
+		HomeTeamID: 9,
+		AwayTeamID: 10,
 		WeekID:     1,
 	},
 }
