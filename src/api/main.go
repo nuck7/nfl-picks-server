@@ -40,8 +40,8 @@ func Api() {
 	router.HandleFunc("/scores", endpoints.GetScore).Methods("GET")
 
 	// PATCH Endpoints
-	router.HandleFunc("/pick/{id}", endpoints.UpdatePick).Methods("PATCH")
-	router.HandleFunc("/matchup/{id}", endpoints.UpdateMatchup).Methods("PATCH")
+	router.HandleFunc("/picks", endpoints.UpdatePick).Methods("PATCH")
+	router.HandleFunc("/matchups", endpoints.UpdateMatchup).Methods("PATCH")
 	router.HandleFunc("/week/{id}", endpoints.UpdateWeek).Methods("PATCH")
 	router.HandleFunc("/user/{id}", endpoints.UpdateUser).Methods("PATCH")
 	router.HandleFunc("/team/{id}", endpoints.UpdateTeam).Methods("PATCH")

@@ -2,7 +2,6 @@ package endpoints
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -33,9 +32,8 @@ func GetWeekMatchups(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
-	fmt.Print("weekMatchup", weekMatchups)
-
-	fmt.Print("weekMatchup row count", weekMatchupViewResults.RowsAffected)
+	// fmt.Println("weekMatchup", weekMatchups)
+	// fmt.Println("weekMatchup row count", weekMatchupViewResults.RowsAffected)
 
 	for i := 0; i < len(weekMatchups); i++ {
 		matchups = append(matchups, types.MatchupResponse{

@@ -53,14 +53,14 @@ func GetMatchup(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateMatchups(w http.ResponseWriter, r *http.Request) {
-	fmt.Print("CREATE MATCHUPS")
+	// fmt.Print("CREATE MATCHUPS")
 
 	requestBody, _ := ioutil.ReadAll(r.Body)
 	var matchup []models.Matchup
 	var MatchupInput []types.CreateMatchupInput
 	db := database.Connector
 
-	fmt.Print("requestBody", requestBody)
+	// fmt.Print("requestBody", requestBody)
 	err := json.Unmarshal(requestBody, &MatchupInput)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -75,12 +75,25 @@ func CreateMatchups(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateMatchup(w http.ResponseWriter, r *http.Request) {
-	requestBody, _ := ioutil.ReadAll(r.Body)
 	var matchup models.Matchup
-	json.Unmarshal(requestBody, &matchup)
-	db := database.Connector
+	requestBody, _ := ioutil.ReadAll(r.Body)
+	var matchups types.Matchups
 
-	db.Create(matchup)
+	db := database.Connector
+	err := json.Unmarshal([]byte(requestBody), &matchups)
+	if err != nil {
+		fmt.Println(err)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	for i := 0; i < len(matchups.Matchups); i++ {
+		db.Model(&matchup).Where("id = ?", matchups.Matchups[i].ID).First(&matchup)
+		// .Updates(map[string]interface{}{
+		// 	"home_team_id": matchups.Matchups[i].HomeTeamID,
+		// 	"away_team_id": matchups.Matchups[i].AwayTeamID,
+		// })
+	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(matchup)

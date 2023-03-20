@@ -96,14 +96,19 @@ func CreateWeek(w http.ResponseWriter, r *http.Request) {
 
 func UpdateWeek(w http.ResponseWriter, r *http.Request) {
 	requestBody, _ := ioutil.ReadAll(r.Body)
+	path := mux.Vars(r)
+	id := path["id"]
 	var week models.Week
 	db := database.Connector
 
-	json.Unmarshal(requestBody, &week)
-
-	db.Create(week)
+	err := json.Unmarshal(requestBody, &week)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	db.Where("id = ?", id).Updates(week)
 	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(week)
 }
 
